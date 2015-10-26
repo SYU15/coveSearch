@@ -1,0 +1,22 @@
+{
+  "name": "coveSearch",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.13.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "repository": "https://github.com/SYU88/coveSearch.git",
+  "license" : "MIT",
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browser-sync": "^2.9.4",
+    "browserify": "^10.2.4",
+    "envify": "^3.4.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-util": "^3.0.6",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
+  }
+}
