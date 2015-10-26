@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var url = process.env.URL || 'http://localhost:8000';
+var TVEntry = require('./components/entryView.js');
 
 var Search = React.createClass({
   //will need to handle spaces
@@ -10,7 +10,7 @@ var Search = React.createClass({
     document.getElementById('searchInput').value = "";
 
     var xhr = new XMLHttpRequest();
-    var newUrl = url + '/search?keywords='+search;
+    var url = '/search?keywords='+search;
     xhr.open("GET", newUrl);
     xhr.send();
   },
@@ -21,6 +21,7 @@ var Search = React.createClass({
           <input id="searchInput" type="text" placeholder="Search..." />
           <button className="ui button" onClick={this.handleSearch}>Submit</button>
         </div>
+        <TVEntry />
       </div>
       );
   }

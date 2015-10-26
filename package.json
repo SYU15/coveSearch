@@ -2,12 +2,13 @@
   "name": "coveSearch",
   "version": "0.0.1",
   "dependencies": {
+    "aws-sdk": "^2.2.12",
     "express": "^4.13.3",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
   "repository": "https://github.com/SYU88/coveSearch.git",
-  "license" : "MIT",
+  "license": "MIT",
   "devDependencies": {
     "babelify": "^6.3.0",
     "browser-sync": "^2.9.4",
