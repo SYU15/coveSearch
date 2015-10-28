@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TVEntry = require('./components/entryView.js');
-var SearchBar = require('./components/searchBar.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TVEntry from './components/entryView.js';
+import SearchBar from './components/searchBar.js';
 
 var Search = React.createClass({
   getInitialState: function() {

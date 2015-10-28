@@ -35,6 +35,7 @@
     "request-promise": "^1.0.2",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.1.4",
+    "rx-lite": "^4.0.6",
     "semantic-ui": "^2.1.4",
     "yamljs": "^0.2.4"
   },
@@ -52,20 +53,20 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
   },
-    "browserify": {
-      "transform": [
-        "browserify-shim"
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "search": "./semantic/dist/components/search.min.js"
+  },
+  "browserify-shim": {
+    "search": {
+      "depends": [
+        "jquery:jQuery",
+        "./semantic/dist/components/transition.min.js:transition"
       ]
-    },
-    "browser": {
-       "search": "./semantic/dist/components/search.min.js"
-     },
-     "browserify-shim": {
-       "search": {
-         "depends": [
-           "jquery:jQuery",
-           "./semantic/dist/components/transition.min.js:transition"
-         ]
-       }
-     }
+    }
+  }
 }

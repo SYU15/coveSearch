@@ -1,25 +1,56 @@
-var React = require('react');
-var $ = require('jquery');
-var search = require('search');
+import React from 'react';
+import $ from 'jquery';
+import search from 'search';
+import Rx from 'rx-lite';
 
 var SearchBar = React.createClass({
-  getDefaultProps: function() {
+  getInitialState: function() {
     return {
-      content: [
-  { title: 'Andorra' },
-  { title: 'United Arab Emirates' }] 
+      content: []
     };
+  },
+  sendRequest: function(keywords) {
+    var url = '/search?keywords='+keywords;
+    return $.ajax({
+      url: url
+    }).promise();
+  },
+  formatSearchSuggestions: function(array) {
+    if(array.length > 0) {
+      var titles = array.map(function(item){
+        return {title: item.title};
+      });
+      return titles;
+    }
   },
   componentDidMount: function() {
     $('.ui.search')
       .search({
-        source: this.props.content
+        source: this.state.content
       });
+
+    var $input = $('#searchInput');
+
+    var keyups = Rx.Observable.fromEvent($input, 'keyup')
+                 .pluck('target', 'value')
+                 .filter(function(text) {
+                  return text.length > 2;
+                 });
+    var distinct = keyups.debounce(500).distinctUntilChanged();
+
+    var suggestions = distinct.flatMapLatest(this.sendRequest);
+
+    suggestions.subscribe((data)=>{
+      var suggestions = this.formatSearchSuggestions(data);
+      this.setState({content: suggestions});
+    });
   },
   componentDidUpdate: function() {
+    console.log('updated');
+    console.log(this.state.content);
       $('.ui.search')
         .search({
-          source: this.props.content
+          source: this.state.content
         });
   },
   render: function() {
