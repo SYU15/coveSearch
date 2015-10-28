@@ -2,3 +2,4 @@ node_modules/
 public/bundle.js
 bower_components/
 exports.sh
+test.js

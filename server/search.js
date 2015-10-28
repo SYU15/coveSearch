@@ -1,6 +1,10 @@
 var AWS = require('aws-sdk');
-var url = process.env.ES_URL;
-var request = require('request');
+var elasticUrl = process.env.ES_URL;
+var coveUrl = process.env.COVE_URL;
+var rp = require('request-promise');
+
+// var request = require('request');
+// var Promise = require('bluebird');
 
 // var es = new AWS.ES();
 
@@ -17,13 +21,23 @@ var request = require('request');
 // });
 
 module.exports = {
+  processData: function(object) {
+
+  },
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-    var esUrl = url + keywords;
+    elasticUrl = elasticUrl + keywords;
+    var data = null;
 
-    request(esUrl, function (error, response, body) {
-    
+    rp(elasticUrl)
+    .then(function(body){
+      body = JSON.parse(body);
+      var programs = body.hits.hits.map(function(item){
+        return item._source;
+      });
+      return programs;
+    }).then(function(programs){
+      res.send(programs);
     });
-    res.send('Working');
   }
 };

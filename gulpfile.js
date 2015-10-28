@@ -43,4 +43,10 @@ gulp.task('watch', function(){
   });
 });
 
+gulp.task('browserify', function() {
+  return bundle(browserify('./client/App.js'));
+});
+
 gulp.task('default',['watch']);
+
+gulp.task('bundle', ['browserify']);
