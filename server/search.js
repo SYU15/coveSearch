@@ -26,10 +26,10 @@ module.exports = {
   },
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-    elasticUrl = elasticUrl + keywords;
-    var data = null;
-
-    rp(elasticUrl)
+    console.log(keywords);
+    var newElasticUrl = elasticUrl + keywords;
+    console.log(newElasticUrl);
+    rp(newElasticUrl)
     .then(function(body){
       body = JSON.parse(body);
       var programs = body.hits.hits.map(function(item){

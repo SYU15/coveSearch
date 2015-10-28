@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TVEntry = require('./components/entryView.js');
+var SearchBar = require('./components/searchBar.js');
 
 var Search = React.createClass({
   getInitialState: function() {
@@ -29,7 +30,7 @@ var Search = React.createClass({
     return (
       <div className="eight wide column react-search">
         <div className="ui icon input">
-          <input id="searchInput" type="text" placeholder="Search..." />
+          <SearchBar />
           <button className="ui button" onClick={this.handleSearch}>Submit</button>
         </div>
         {rows}
