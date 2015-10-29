@@ -46,7 +46,6 @@ var SearchBar = React.createClass({
     });
   },
   componentDidUpdate: function() {
-    console.log('updated');
     console.log(this.state.content);
       $('.ui.search')
         .search({

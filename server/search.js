@@ -21,16 +21,41 @@ var rp = require('request-promise');
 // });
 
 module.exports = {
-  processData: function(object) {
-
-  },
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-    console.log(keywords);
-    var newElasticUrl = elasticUrl + keywords;
-    console.log(newElasticUrl);
-    rp(newElasticUrl)
+
+  var data = {
+   "query": {
+    "match_phrase_prefix" : {
+        "title" : {
+            "query": keywords,
+            "slop":  10,
+            "max_expansions": 50
+        }
+    }
+    }
+  };
+    // var data = {
+    //   "query": {
+    //     "bool": {
+    //       "should": [
+    //         { "match": { "title":  keywords }},
+    //         { "match": { "short_description": keywords }},
+    //         { "match": { "long_description": keywords }}
+    //       ]
+    //     }
+    //   }
+    // };
+
+    var options = {
+      method: 'POST',
+      uri: elasticUrl,
+      body: JSON.stringify(data)
+    };
+
+    rp(options)
     .then(function(body){
+      console.log(body);
       body = JSON.parse(body);
       var programs = body.hits.hits.map(function(item){
         return item._source;
@@ -38,6 +63,8 @@ module.exports = {
       return programs;
     }).then(function(programs){
       res.send(programs);
+    }).catch(function (err) {
+      console.log(err);
     });
   }
 };
