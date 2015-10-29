@@ -3,7 +3,7 @@ import $ from 'jquery';
 import search from 'search';
 import Rx from 'rx-lite';
 
-var SearchBar = React.createClass({
+const SearchBar = React.createClass({
   getInitialState: function() {
     return {
       content: []
