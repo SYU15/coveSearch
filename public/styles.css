@@ -1,3 +1,16 @@
 .react-search {
   margin-top: 250px
 }
+
+#searchInput {
+  border-radius:0.28571429rem;
+}
+
+.react-link {
+  color: blue;
+}
+
+.react-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

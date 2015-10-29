@@ -36,17 +36,16 @@ var SearchBar = React.createClass({
                  .filter(function(text) {
                   return text.length > 2;
                  });
-    var distinct = keyups.debounce(500).distinctUntilChanged();
+    var distinct = keyups.debounce(250).distinctUntilChanged();
 
     var suggestions = distinct.flatMapLatest(this.sendRequest);
 
     suggestions.subscribe((data)=>{
-      var suggestions = this.formatSearchSuggestions(data);
+      var suggestions = this.formatSearchSuggestions(data) || [];
       this.setState({content: suggestions});
     });
   },
   componentDidUpdate: function() {
-    console.log(this.state.content);
       $('.ui.search')
         .search({
           source: this.state.content
