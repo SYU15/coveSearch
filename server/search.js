@@ -68,8 +68,8 @@ module.exports = {
     });
   },
   getVideos: function(req, res) {
-    console.log(req.query.coveId);
-    var coveRequest = coveUrl + 'videos/?filter_program=' + req.query.coveId+ '&filter_availability_status=Available&order_by=airdate&limit_stop=10';
+    var videoType = req.query.videoType;
+    var coveRequest = coveUrl + 'videos/?filter_program=' + req.query.coveId+ '&filter_availability_status=Available&order_by=-airdate&limit_stop=10&filter_type=' + videoType;
     console.log(coveRequest);
     rp(coveRequest).then(function(body){
       res.send(body);

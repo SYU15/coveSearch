@@ -13,7 +13,10 @@ const Videos = React.createClass({
   },
   render: function() {
     return (
-      <div id={this.props.data.guid}></div>
+        <div className="ui segment">
+          <div id={this.props.data.guid}></div>
+          <h4>{this.props.data.short_description}</h4>
+        </div>
       );
   }
 });

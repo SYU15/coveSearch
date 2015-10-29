@@ -5,12 +5,12 @@ import Videos from './videos.js';
 const ProgramVideos = React.createClass({
   getInitialState: function() {
     return {
-      videos: []
+      videos: [],
+      videoType: 'Episode'
     };
   },
-  componentDidMount: function() {
-    var url = '/program?coveId='+this.props.params.videoId;
-    console.log(url);
+  getVideos: function() {
+    var url = '/program?coveId='+this.props.params.videoId + '&videoType='+this.state.videoType;
 
     var that = this;
     $.ajax({
@@ -25,11 +25,26 @@ const ProgramVideos = React.createClass({
       }
     });
   },
+  componentDidMount: function() {
+    this.getVideos();
+  },
+  // handleVideoType: function(type) {
+  //   this.setState({videoType: type});
+  //   this.getVideos();
+  // },
   render: function() {
     var rows = this.state.videos.map((video, i) => {
         return <Videos data={video} key={i} />
       });
-    return <div className="eight wide column">{rows}</div>;
+    // <div className="ui two item menu">
+    //   <a className="active item" onClick={this.handleVideoType.bind(this, 'Episode')}>Episodes</a>
+    //   <a className="item" onClick={this.handleVideoType.bind(this, 'Clip')}>Clips</a>
+    // </div>
+    return (
+      <div className="eight wide column react-search">
+        {rows}
+      </div>
+      );
   }
 });
 
