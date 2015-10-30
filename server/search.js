@@ -24,28 +24,54 @@ module.exports = {
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
 
-  var data = {
-   "query": {
-    "match_phrase_prefix" : {
-        "title" : {
-            "query": keywords,
+  // var data = {
+  //  "query": {
+  //     "match_phrase_prefix" : {
+  //         "title" : {
+  //             "query": keywords,
+  //             "slop":  10,
+  //             "max_expansions": 50
+  //         }
+  //     }
+  //   }
+  // };
+
+var data = {
+  "sort" : [
+       { "type" : {"missing" : "_first"} }
+     ],
+    "query" : {
+        "multi_match" : {
+            "fields" : ["title", "short_description", "long_description"],
+            "query" : keywords,
             "slop":  10,
-            "max_expansions": 50
+            "type" : "phrase_prefix"
         }
     }
-    }
-  };
-    // var data = {
-    //   "query": {
-    //     "bool": {
-    //       "should": [
-    //         { "match": { "title":  keywords }},
-    //         { "match": { "short_description": keywords }},
-    //         { "match": { "long_description": keywords }}
-    //       ]
-    //     }
-    //   }
-    // };
+};
+
+// var data = {
+//     "query" : {
+//         "multi_match" : {
+//             "fields" : ["title", "short_description", "long_description"],
+//             "query" : keywords,
+//             "type" : "best_fields",
+//             "max_expansions": 50,
+//             "fuzziness": 1
+//         }
+//     }
+// };
+// var data = {
+//   "query": {
+//     "bool": {
+//       "should": [
+//         { "match": { "title":  keywords, "type" : "phrase_prefix", "fuzziness": 1}},
+//         { "match": { "short_description": keywords, "type" : "phrase_prefix", "fuzziness": 1 }},
+//         { "match": { "long_description": keywords, "type" : "phrase_prefix", "fuzziness": 1 }}
+//       ]
+//     }
+//   }
+// };
 
     var options = {
       method: 'POST',
