@@ -84,6 +84,7 @@ var data = {
       console.log(body);
       body = JSON.parse(body);
       var programs = body.hits.hits.map(function(item){
+        item._source.id = item._id;
         return item._source;
       });
       return programs;
