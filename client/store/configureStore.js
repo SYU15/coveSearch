@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import reducer from '../reducers';
-import {getSearchEntries, fetchEntries} from '../actions/searchAction'
 
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware

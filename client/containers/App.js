@@ -10,7 +10,7 @@ const App = React.createClass({
     const { searchEntries, actions } = this.props;
     return (
       <div>
-        <Search />
+        <Search searchEntries = {searchEntries} actions = {actions} />
       </div>
     )
   }
@@ -18,8 +18,9 @@ const App = React.createClass({
 
 //grabs playlist props from playlist reducer (will need to add on this as more reducers are added)
 function mapStateToProps(state) {
+  console.log(state);
   return {
-    searchEntries: state.searchEntries
+    searchEntries: state.searchEntryReducer
   };
 }
 //grabs all actions from playlistActions (will need to add action files as app grows)

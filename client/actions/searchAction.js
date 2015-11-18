@@ -29,14 +29,17 @@ export function errorEntries(error) {
 
 export function fetchEntries(query) {
   return function(dispatch) {
-    
-    dispatch(getSearchEntries(query));
+    // dispatch(getSearchEntries(query));
     
     var searchUrl = '/search?keywords=' + query;
-    
+
     return fetch(searchUrl)
-           .then(response => response.json)
-           .then(json => dispatch(retrieveEntries(json)))
-           .catch(error => dispatch(errorEntries(error)));
+           .then((response) => {
+            return response.json();
+          })
+           .then((json) => {
+            dispatch(retrieveEntries(json))
+          });
+           // .catch(error => dispatch(errorEntries(error)));
   };
 }

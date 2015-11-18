@@ -4,12 +4,6 @@ import {Router, Route, Link} from 'react-router';
 
 const NewsEntry = React.createClass({
 
-  componentDidMount: function(){
-  },
-  componentWillUpdate: function() {
-  },
-  componentDidUpdate: function() {
-  },
   createTitleMarkup: function() {
     return {__html: this.props.data.title};
   },
