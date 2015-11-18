@@ -4,18 +4,17 @@ var rp = require('request-promise');
 module.exports = {
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-  console.log('called');
-  var data = {
-   "query": {
-      "match_phrase_prefix" : {
-          "title" : {
-              "query": keywords,
-              "slop":  10,
-              "max_expansions": 50
-          }
+    var data = {
+     "query": {
+        "match_phrase_prefix" : {
+            "title" : {
+                "query": keywords,
+                "slop":  10,
+                "max_expansions": 50
+            }
+        }
       }
-    }
-  };
+    };
 
 // var data = {
 //   "sort" : [

@@ -7,7 +7,6 @@ const Videos = React.createClass({
   },
   componentDidMount: function(){
     var id = '#' + this.props.data.guid;
-    console.log(this.props.data);
     var iframe = this.parseHtml(this.props.data.partner_player); 
     $(id).append(iframe);
   },

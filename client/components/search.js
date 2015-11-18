@@ -33,7 +33,6 @@ const Search = React.createClass({
         return <NewsEntry data={program} key={i} />
       });
     if(this.state.hasSearch && rows.length === 0) {
-      console.log('called');
       var rows2 = <h3>Your search returned no results, but you can see a list of our <span className="react-link">most popular programs</span> or <span className="react-link">browse.</span></h3>
     }
     return (

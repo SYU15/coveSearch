@@ -1,12 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link } from 'react-router';
-import Search from './components/search.js';
-import ProgramVideos from './components/programVideos.js';
+import { Provider } from 'react-redux';
+import App from './containers/App';
+import configureStore from './store/configureStore';
 
-render((
-  <Router>
-    <Route name="search" path="/" component={Search} />
-    <Route name="video" path="/programs/:videoId" component={ProgramVideos} />
-  </Router>
-), document.getElementById('app'))
+const store = configureStore();
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+)
