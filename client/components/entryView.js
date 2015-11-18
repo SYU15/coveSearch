@@ -7,24 +7,16 @@ const TVEntry = React.createClass({
     return $.parseHTML(string);
   },
   componentDidMount: function(){
-    var id = '#' + this.props.data.id;
-    var iframe = this.parseHtml(this.props.data.partner_player); 
-    $(id).append(iframe);
   },
   componentWillUpdate: function() {
-    var id = '#' + this.props.data.id;
-    $(id).children().remove();
   },
   componentDidUpdate: function() {
-    var id = '#' + this.props.data.id;
-    var iframe = this.parseHtml(this.props.data.partner_player); 
-    $(id).append(iframe);
   },
   render: function() {
     return (
       <div className="ui segment">
-        <img src={this.props.data.associated_images.length > 0 ? this.selectImage(this.props.data.associated_images) : ""} />
-        <a href={'http://159.203.243.222/tv/programs-id/?program_id=' + this.props.data.cove_id}><h3 className="ui header react-link">{this.props.data.title}</h3></a>
+        <a href={this.props.data.link}><h3 className="ui header react-link">{this.props.data.title}</h3></a>
+        <p>{this.props.data.content}</p>
       </div>
       );
     }

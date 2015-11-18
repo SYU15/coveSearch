@@ -1,6 +1,6 @@
 import React from 'react';
-import TVEntry from './entryView.js';
-import SearchBar from './searchBar.js';
+import NewsEntry from './entryView';
+import SearchBar from './searchBar';
 import $ from 'jquery';
   
 const Search = React.createClass({
@@ -30,7 +30,7 @@ const Search = React.createClass({
   },
   render: function() {
     var rows = this.state.searchData.map((program, i) => {
-        return <TVEntry data={program} key={i} />
+        return <NewsEntry data={program} key={i} />
       });
     if(this.state.hasSearch && rows.length === 0) {
       console.log('called');
