@@ -1,19 +1,16 @@
 import React from 'react';
 import $ from 'jquery';
 import search from 'search';
-import Rx from 'rx-lite';
+// import Rx from 'rx-lite';
+import debounce from 'lodash.debounce';
 
 const SearchBar = React.createClass({
-  getInitialState: function() {
-    return {
-      content: []
-    };
-  },
-  sendRequest: function(keywords) {
-    var url = '/search?keywords='+keywords;
-    return $.ajax({
-      url: url
-    }).promise();
+  sendRequest: function() {
+    var keywords = $('#searchInput').val();
+
+    if(keywords.length > 2) {
+      this.props.actions.fetchEntries(keywords);
+    }
   },
   formatSearchSuggestions: function(array) {
     if(array.length > 0) {
@@ -26,30 +23,20 @@ const SearchBar = React.createClass({
   componentDidMount: function() {
     $('.ui.search')
       .search({
-        source: this.state.content
+        source: []
       });
 
-    var $input = $('#searchInput');
-
-    var keyups = Rx.Observable.fromEvent($input, 'keyup')
-                 .pluck('target', 'value')
-                 .filter(function(text) {
-                  return text.length > 2;
-                 });
-    var distinct = keyups.debounce(250).distinctUntilChanged();
-
-    var suggestions = distinct.flatMapLatest(this.sendRequest);
-
-    suggestions.subscribe((data)=>{
-      var suggestions = this.formatSearchSuggestions(data) || [];
-      this.setState({content: suggestions});
-    });
+    $('#searchInput').on('keyup', debounce(this.sendRequest, 250));
   },
   componentDidUpdate: function() {
+
+    var formattedEntries = this.formatSearchSuggestions(this.props.searchEntries);
+    console.log(formattedEntries);
+    
       $('.ui.search')
         .search({
-          source: this.state.content
-        });
+          source: formattedEntries
+      });
   },
   render: function() {
     return (

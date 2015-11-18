@@ -18,7 +18,6 @@ const App = React.createClass({
 
 //grabs playlist props from playlist reducer (will need to add on this as more reducers are added)
 function mapStateToProps(state) {
-  console.log(state);
   return {
     searchEntries: state.searchEntryReducer
   };

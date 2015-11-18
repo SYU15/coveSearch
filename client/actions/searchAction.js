@@ -29,7 +29,7 @@ export function errorEntries(error) {
 
 export function fetchEntries(query) {
   return function(dispatch) {
-    // dispatch(getSearchEntries(query));
+    dispatch(getSearchEntries(query));
     
     var searchUrl = '/search?keywords=' + query;
 
@@ -39,7 +39,7 @@ export function fetchEntries(query) {
           })
            .then((json) => {
             dispatch(retrieveEntries(json))
-          });
-           // .catch(error => dispatch(errorEntries(error)));
+          })
+           .catch(error => dispatch(errorEntries(error)));
   };
 }
