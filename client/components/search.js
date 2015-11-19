@@ -28,13 +28,17 @@ const Search = React.createClass({
     }
 
     return (
-      <div className="eight wide column react-search">
-        <div className="ui icon input">
-          <SearchBar searchEntries = {searchEntries} actions = {actions}/>
-          <button className="ui button" onClick={this.handleSearch}>Submit</button>
+      <div  className="ui center aligned grid">
+        <div className="sixteen wide column react-search">
+          <div className="ui icon input">
+            <SearchBar searchEntries = {searchEntries} actions = {actions}/>
+            <button className="ui button" onClick={this.handleSearch}>Submit</button>
+          </div>
         </div>
-        {rows}
-        {rows2}
+        <div className="eight wide column">
+          {rows}
+          {rows2}
+        </div>
       </div>
       );
   }

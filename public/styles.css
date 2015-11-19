@@ -1,5 +1,5 @@
 .react-search {
-  margin-top: 50px
+  margin: 50px 0;
 }
 
 #searchInput {
@@ -13,4 +13,8 @@
 .react-link:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.results {
+  opacity: 0.85;
 }

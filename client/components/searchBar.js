@@ -31,7 +31,6 @@ const SearchBar = React.createClass({
   componentDidUpdate: function() {
 
     var formattedEntries = this.formatSearchSuggestions(this.props.searchEntries);
-    console.log(formattedEntries);
     
       $('.ui.search')
         .search({
