@@ -4,54 +4,68 @@ var rp = require('request-promise');
 module.exports = {
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-    var data = {
-     "query": {
-        "match_phrase_prefix" : {
-            "title" : {
-                "query": keywords,
-                "slop":  10,
-                "max_expansions": 50
-            }
+    // var data = {
+    //  "query": {
+    //     "match_phrase_prefix" : {
+    //         "title" : {
+    //             "query": keywords,
+    //             "slop":  10,
+    //             "max_expansions": 50
+    //         }
+    //     }
+    //   }
+    // };
+
+//sort by date, give more recent articles greater weight
+// var data = {
+//   "query" : {
+//       "multi_match" : {
+//           "fields" : ["title^5", "author^2", "content", "tags", "excerpt^3"],
+//           "query" : keywords,
+//           "slop":  10,
+//           "type" : "phrase_prefix"
+//       }
+//    }
+// };
+
+// var data = {
+//   "query" : {
+//       "multi_match" : {
+//           "fields" : ["title^5", "author^2", "content", "tags", "excerpt^3"],
+//           "query" : keywords,
+//           "slop":  10,
+//           "type" : "phrase_prefix"
+//       }
+//    },
+//    "sort": [
+//              { "date": { "order": "desc" }},
+//              { "_score": { "order": "desc" }}
+//            ]
+//   };
+
+
+var data = {
+  "query" : {
+    "function_score": {
+      "query" : {
+        "multi_match" : {
+            "fields" : ["title^5", "author^2", "content", "tags", "excerpt^3"],
+            "query" : keywords,
+            "slop":  10,
+            "type" : "phrase_prefix"
         }
-      }
-    };
+      },
+      "gauss": {
+        "date": {
+              "scale": "10d",
+              "decay" : 0.5 
+        }
+      },
+      "score_mode": "multiply"
+    }
+  }
+};
 
-// var data = {
-//   "sort" : [
-//        { "type" : {"missing" : "_first"} }
-//      ],
-//     "query" : {
-//         "multi_match" : {
-//             "fields" : ["title", "short_description", "long_description"],
-//             "query" : keywords,
-//             "slop":  10,
-//             "type" : "phrase_prefix"
-//         }
-//     }
-// };
-
-// var data = {
-//     "query" : {
-//         "multi_match" : {
-//             "fields" : ["title", "short_description", "long_description"],
-//             "query" : keywords,
-//             "type" : "best_fields",
-//             "max_expansions": 50,
-//             "fuzziness": 1
-//         }
-//     }
-// };
-// var data = {
-//   "query": {
-//     "bool": {
-//       "should": [
-//         { "match": { "title":  keywords, "type" : "phrase_prefix", "fuzziness": 1}},
-//         { "match": { "short_description": keywords, "type" : "phrase_prefix", "fuzziness": 1 }},
-//         { "match": { "long_description": keywords, "type" : "phrase_prefix", "fuzziness": 1 }}
-//       ]
-//     }
-//   }
-// };
 
     var options = {
       method: 'POST',

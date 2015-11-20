@@ -14,6 +14,7 @@ const NewsEntry = React.createClass({
     return (
       <div className="ui segment">
         <a href={this.props.data.link}><h3 className="ui header react-link" dangerouslySetInnerHTML={this.createTitleMarkup()}></h3></a>
+        <p>{this.props.data.author}</p>
         <p dangerouslySetInnerHTML={this.createContentMarkup()}></p>
       </div>
       );
