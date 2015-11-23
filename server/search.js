@@ -1,20 +1,34 @@
 var elasticUrl = process.env.ES_URL;
 var rp = require('request-promise');
+var extend = require('extend');
 
 module.exports = {
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
-    // var data = {
-    //  "query": {
-    //     "match_phrase_prefix" : {
-    //         "title" : {
-    //             "query": keywords,
-    //             "slop":  10,
-    //             "max_expansions": 50
-    //         }
-    //     }
-    //   }
-    // };
+    var program = req.query.program;
+
+    var data = {
+      "query" : {
+        "function_score": {
+          "query" : {
+            "multi_match" : {
+                "fields" : ["title^5", "author^2", "content", "tags^3", "excerpt^3"],
+                "query" : keywords,
+                "slop":  10,
+                "type" : "phrase_prefix"
+            }
+          },
+          "gauss": {
+            "date": {
+                  "scale": "10d",
+                  "decay" : 0.5 
+            }
+          },
+          "score_mode": "multiply"
+        }
+      }
+    };
+
 
 //sort by date, give more recent articles greater weight
 // var data = {
@@ -43,29 +57,17 @@ module.exports = {
 //            ]
 //   };
 
-
-var data = {
-  "query" : {
-    "function_score": {
-      "query" : {
-        "multi_match" : {
-            "fields" : ["title^5", "author^2", "content", "tags", "excerpt^3"],
-            "query" : keywords,
-            "slop":  10,
-            "type" : "phrase_prefix"
-        }
-      },
-      "gauss": {
-        "date": {
-              "scale": "10d",
-              "decay" : 0.5 
-        }
-      },
-      "score_mode": "multiply"
+    if(program) {
+      var filter = {
+        "filter" : {
+            "term" : {
+              "programs": program
+            }
+          }
+        };
+      extend(true, data, filter);
+      console.log(data);
     }
-  }
-};
-
 
     var options = {
       method: 'POST',
