@@ -7,28 +7,7 @@ module.exports = {
     var keywords = req.query.keywords;
     var program = req.query.program;
 
-    var data = {
-      "query" : {
-        "function_score": {
-          "query" : {
-            "multi_match" : {
-                "fields" : ["title^5", "author^2", "content", "tags^3", "excerpt^3"],
-                "query" : keywords,
-                "slop":  10,
-                "type" : "phrase_prefix"
-            }
-          },
-          "gauss": {
-            "date": {
-                  "scale": "10d",
-                  "decay" : 0.5 
-            }
-          },
-          "score_mode": "multiply"
-        }
-      }
-    };
-
+    var data = {};
 
 //sort by date, give more recent articles greater weight
 // var data = {
@@ -58,16 +37,58 @@ module.exports = {
 //   };
 
     if(program) {
-      var filter = {
-        "filter" : {
-            "term" : {
-              "programs": program
-            }
+      data = {
+        "from" : 0, "size" : 30,
+        "query" : {
+          "function_score": {
+            "query" : {
+              "bool": {
+                    "must":     { "match": { "programs": program }},
+                    "should": {
+                    "multi_match" : {
+                        "fields" : ["title^5", "author^2", "content", "tags^3", "excerpt^3"],
+                        "query" : keywords,
+                        "slop":  10,
+                        "type" : "phrase_prefix"
+                    }
+
+                  }
+              }
+            },
+            "gauss": {
+              "date": {
+                    "scale": "10d",
+                    "decay" : 0.5 
+              }
+            },
+            "score_mode": "multiply"
           }
-        };
-      extend(true, data, filter);
-      console.log(data);
-    }
+        }
+      };
+    } else {
+      data = {
+      "from" : 0, "size" : 30,
+      "query" : {
+        "function_score": {
+          "query" : {
+            "multi_match" : {
+                "fields" : ["title^5", "author^2", "content", "tags^3", "excerpt^3"],
+                "query" : keywords,
+                "slop":  10,
+                "type" : "phrase_prefix"
+            }
+          },
+          "gauss": {
+            "date": {
+                  "scale": "10d",
+                  "decay" : 0.5 
+            }
+          },
+          "score_mode": "multiply"
+        }
+      }
+    };
+  }
 
     var options = {
       method: 'POST',
