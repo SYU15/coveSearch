@@ -35,7 +35,7 @@ module.exports = {
 //              { "_score": { "order": "desc" }}
 //            ]
 //   };
-
+// '{"properties":{"programs" :{"type":"string","index":"not_analyzed"}}}'
     if(program) {
       data = {
         "from" : 0, "size" : 30,
