@@ -2,6 +2,7 @@ import React from 'react';
 import NewsEntry from './entryView';
 import SearchBar from './searchBar';
 import $ from 'jquery';
+import DatePick from './datepicker';
   
 const Search = React.createClass({
   getInitialState: function() {
@@ -34,6 +35,7 @@ const Search = React.createClass({
             <SearchBar searchEntries = {searchEntries} actions = {actions}/>
             <button className="ui button" onClick={this.handleSearch}>Submit</button>
           </div>
+          <DatePick />
         </div>
         <div className="eight wide column">
           {rows}
