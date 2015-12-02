@@ -7,7 +7,7 @@ module.exports = {
     var keywords = req.query.keywords;
     var program = req.query.program;
     var startDate = req.query.startDate;
-    var endDate = req.query.endDate || startDate + '||+1d';
+    var endDate = req.query.endDate || startDate;
 
     var data = {};
 
