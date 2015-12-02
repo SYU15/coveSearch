@@ -6,6 +6,8 @@ module.exports = {
   submitSearch: function(req, res) {
     var keywords = req.query.keywords;
     var program = req.query.program;
+    var startDate = req.query.startDate;
+    var endDate = req.query.endDate || startDate + '||+1d';
 
     var data = {};
 
@@ -36,7 +38,7 @@ module.exports = {
 //            ]
 //   };
 // '{"properties":{"programs" :{"type":"string","index":"not_analyzed"}}}'
-    if(program) {
+    if(program && keywords) {
       data = {
         "from" : 0, "size" : 30,
         "query" : {
@@ -65,7 +67,7 @@ module.exports = {
           }
         }
       };
-    } else {
+    } else if (keywords) {
       data = {
       "from" : 0, "size" : 30,
       "query" : {
@@ -87,6 +89,23 @@ module.exports = {
           "score_mode": "multiply"
         }
       }
+    };
+  } else if (startDate) {
+    data = {
+      "from" : 0, "size" : 60,
+        "query" : {
+          "filtered" : {
+            "filter" : {
+              "range" : {
+                "date" : {
+                    "gte" : startDate,
+                    "lte"  : endDate
+                }
+              }
+            }
+        }
+      },
+      "sort": { "date": { "order": "desc" }}
     };
   }
 
